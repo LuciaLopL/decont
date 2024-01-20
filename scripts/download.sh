@@ -22,8 +22,13 @@ directorio=$2
 uncompress_opcion=$3
 palabra_filtrar=$4
 
-#nombre_archivo=$(basename "$url")
+nombre_archivo=$(basename "$url")
 
 mkdir -p "$directorio"
 
 wget -P "$directorio" "$url"
+
+if ["$uncompress_opcion"=="yes"]; then
+	gzip "$directorio"/"$nombre_archivo"
+fi
+
