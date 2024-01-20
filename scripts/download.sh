@@ -30,5 +30,8 @@ wget -P "$directorio" "$url"
 
 if ["$uncompress_opcion"=="yes"]; then
 	gzip "$directorio"/"$nombre_archivo"
-fi
-
+	
+	if [-n "$palabra_filtrar"]; then 
+	seqkit grep -v -p "$palabra_filtrar" "$directorio"/"$nombre_archivo" > "$nombre_archivo"
+	fi
+fi 
