@@ -1,5 +1,6 @@
 #Download all the files specified in data/filenames
-for url in $(ls data/urls/*.fastq.gz)
+
+for url in $(cat data/urls)
 do
     bash scripts/download.sh $url data
 done
