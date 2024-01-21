@@ -26,12 +26,21 @@ nombre_archivo=$(basename "$url")
 
 mkdir -p "$directorio"
 
+#Para descargar los archivos
 wget -P "$directorio" "$url"
+#Para descomprimir en caso necesario 
 
-if ["$uncompress_opcion"=="yes"]; then
-	gzip "$directorio"/"$nombre_archivo"
-	
-	if [-n "$palabra_filtrar"]; then 
-	seqkit grep -v -p "$palabra_filtrar" "$directorio"/"$nombre_archivo" > "$nombre_archivo"
-	fi
+if [ "$uncompress_opcion" == "yes" ] 
+then
+	nombre_archivo=$(basename "$url")
+	echo "$nombre_archivo"
+	gzip -dk "$directorio/$nombre_archivo"
+	echo "El archivo se ha descomprimido"
+fi
+
+if [ -n "$palabra_filtrar" ]
+then
+	nombre_filtrado=$(basename "$nombre_archivo" .fasta.gz)
+        seqkit grep -v -n -r -p "$palabra_filtrar" "$directorio/$nombre_archivo" > "$directorio/$nombre_filtrado.fasta"
 fi 
+
