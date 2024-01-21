@@ -7,22 +7,32 @@ done
 
 # Download the contaminants fasta file, uncompress it, and
 # filter to remove all small nuclear RNAs
-bash scripts/download.sh <contaminants_url> res yes #TODO
+contaminant_url="https://bioinformatics.cnio.es/data/courses/decont/contaminants.fasta.gz"
+
+palabra_filtrar="small\ nuclear"
+bash scripts/download.sh "$contaminant_url" res yes "$palabra_filtrar"
 
 # Index the contaminants file
 bash scripts/index.sh res/contaminants.fasta res/contaminants_idx
 
 # Merge the samples into a single file
-for sid in $(<list_of_sample_ids>) #TODO
+for sid in $(ls data/*.fastq.gz|cut -d "." -f1|xargs -n 1 basename|sort|uniq)
 do
     bash scripts/merge_fastqs.sh data out/merged $sid
+    echo $sid
 done
 
-# TODO: run cutadapt for all merged files
-# cutadapt -m 18 -a TGGAATTCTCGGGTGCCAAGG --discard-untrimmed \
-#     -o <trimmed_file> <input_file> > <log_file>
+#run cutadapt for all merged files
+mkdir -p out/trimmed
+mkdir -p log/cutadapt
 
-# TODO: run STAR for all trimmed files
+for merged in $(ls out/merged/*.fastq.gz|xargs -n 1 basename)
+do
+cutadapt -m 18 -a TGGAATTCTCGGGTGCCAAGG --discard-untrimmed \
+     -o out/trimmed/"$merged".trimmed.fasq.gz out/merged/"$merged".fastq.gz > log/cutadapt/"$merged".log
+done
+
+# run STAR for all trimmed files
 for fname in out/trimmed/*.fastq.gz
 do
     # you will need to obtain the sample ID from the filename
