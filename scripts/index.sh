@@ -4,5 +4,10 @@
 # The STAR command is provided for you. You should replace the parts surrounded
 # by "<>" and uncomment it.
 
-# STAR --runThreadN 4 --runMode genomeGenerate --genomeDir <outdir> \
-# --genomeFastaFiles <genomefile> --genomeSAindexNbases 9
+archivo_genoma=$1
+directorio_index=$2
+
+mkdir -p "$directorio_index"
+
+STAR --runThreadN 4 --runMode genomeGenerate --genomeDir "$directorio_index" \
+ --genomeFastaFiles "$archivo_genoma" --genomeSAindexNbases 9
