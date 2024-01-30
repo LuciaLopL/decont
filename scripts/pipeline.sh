@@ -9,13 +9,20 @@ verificar_existencia() {
 
 #Download all the files specified in data/filenames
 
-for url in $(cat data/urls)
-do
-    if ! verificar_existencia "data/$(basename "$url")"; then
-    bash scripts/download.sh $url data
+#for url in $(cat data/urls)
+#do
+#    if ! verificar_existencia "data/$(basename "$url")"; then
+#    bash scripts/download.sh $url data
+#    echo "Descarga de archivos completa"
+#    fi
+#done
+
+#Descarga de los archivos con una línea y wget
+if  verificar_existencia "data/$(basename "$url")"; then
+    wget -P data -i data/urls
     echo "Descarga de archivos completa"
-    fi
-done
+fi
+
 
 # Download the contaminants fasta file, uncompress it, and
 # filter to remove all small nuclear RNAs
