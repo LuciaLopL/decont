@@ -41,6 +41,7 @@ fi
 if [ -n "$palabra_filtrar" ]
 then
 	nombre_filtrado=$(basename "$nombre_archivo" .fasta.gz)
-        seqkit grep -v -n -r -p "$palabra_filtrar" "$directorio/$nombre_archivo" > "$directorio/$nombre_filtrado.fasta"
+        echo "$nombre_filtrado"
+	seqkit grep -v -n -r -p "$palabra_filtrar" "$directorio/$nombre_archivo" > "$directorio/$nombre_filtrado.fasta"
 fi 
 
