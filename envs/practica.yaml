@@ -1,0 +1,11 @@
+name: practica
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - seqkit
+  - cutadapt
+  - star
+  - ca-certificates
+  - openssl
+prefix: /home/vant/miniforge3/envs/practica
